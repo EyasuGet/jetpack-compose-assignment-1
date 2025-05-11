@@ -39,7 +39,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CourseList(courses = sampleCourses)
+                    MyApp(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    )
                 }
             }
         }
@@ -151,5 +154,37 @@ fun CourseCardPreview() {
 fun CourseListPreview() {
     Jetpackcomposeassignment1Theme {
         CourseList(courses = sampleCourses)
+    }
+}
+
+@Composable
+fun MyApp(
+    modifier : Modifier = Modifier,
+){
+    var showOnBoarding by rememberSaveable { mutableStateOf(true) }
+
+    if (showOnBoarding){
+        OnBoardingScreen(onContinueClicked = { showOnBoarding = false})
+    }else{
+        CourseList(courses = sampleCourses)
+    }
+}
+
+@Composable
+fun OnBoardingScreen(
+    onContinueClicked : () -> Unit,
+    modifier : Modifier = Modifier) {
+    Column (modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ){
+        Text(text = "List of Software Engineering Courses")
+        Button(
+            onClick = onContinueClicked,
+            modifier = Modifier
+                .padding(vertical = 24.dp)
+        ) {
+            Text(text = "Get Started")
+        }
     }
 }
